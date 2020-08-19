@@ -178,16 +178,16 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
+  m_UseAutoMass: 1
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!4 &477137416
 Transform:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477137413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1546966296}
@@ -216,8 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b345e36fec2357f45842441fdc9c01d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movePower: 1
-  jumpPower: 1
+  movePower: 3
+  jumpPower: 5
 --- !u!61 &477137418
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -231,7 +231,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.96}
+  m_Offset: {x: 0.031047404, y: -0.99991786}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -242,7 +242,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7, y: 0.2}
+  m_Size: {x: 0.76209474, y: 0.27983594}
   m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 1309170216}
   - component: {fileID: 1309170218}
   - component: {fileID: 1309170219}
+  - component: {fileID: 1309170220}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -752,7 +753,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309170214}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -761,6 +762,29 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!68 &1309170220
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309170214}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -8, y: 0.01668638}
+  - {x: 1.9707456, y: 0.016628325}
+  - {x: 5.9607754, y: 2.0373724}
+  - {x: 12.013426, y: 2.0036426}
+  - {x: 12.013426, y: 0.9833138}
+  - {x: 12, y: 0.6208284}
+  - {x: 12, y: 0.5}
 --- !u!1 &1546966295
 GameObject:
   m_ObjectHideFlags: 0

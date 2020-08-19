@@ -41,7 +41,7 @@ public class AliceController : MonoBehaviour {
         }
 
         //Jumping
-        if(Input.GetButtonDown ("Jump")){
+        if(Input.GetButtonDown ("Jump") && !animator.GetBool("isJumping")){
             isJumping = true;
             animator.SetBool("isJumping", true); //Jumping Flag
             animator.SetTrigger("doJumping"); //Jumping Animation
@@ -89,7 +89,7 @@ public class AliceController : MonoBehaviour {
     {
         Debug.Log("Attach : " + other.gameObject.layer);
 
-        if (other.gameObject.layer == 8 && rigid.velocity.y < 0)
+        if (other.gameObject.layer == 8)
             animator.SetBool("isJumping", false); //Landing
     }
 
