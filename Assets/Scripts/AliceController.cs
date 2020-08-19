@@ -89,7 +89,7 @@ public class AliceController : MonoBehaviour {
     {
         Debug.Log("Attach : " + other.gameObject.layer);
 
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 8 && rigid.velocity.y < 0)
             animator.SetBool("isJumping", false); //Landing
     }
 
