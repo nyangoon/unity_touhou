@@ -3,45 +3,71 @@ using System.Collections;
 
 public class AliceController : MonoBehaviour {
     public float movePower = 1f;
+    public float dashPower = 1f;
     public float jumpPower = 1f;
+    private float ableDashTime = 0.5f;
 
     Rigidbody2D rigid;
     Animator animator;
     SpriteRenderer renderer;
-    
+
 
     Vector3 movement;
     bool isJumping = false;
+    bool canDash = false;
 
     //----------[Override Function]
     //Initailization
-    void Start(){
+    void Start() {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
         renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
 
     //Graphic & Input Updates
-    void Update(){
+    void Update() {
         //Moving
-        if(Input.GetAxisRaw("Horizontal") == 0)
+        if (Input.GetAxisRaw("Horizontal") == 0)
         {
             animator.SetBool("isMoving", false);
+            canDash = true;
+            ableDashTime -= Time.deltaTime;
+            if(ableDashTime <= 0)
+            {
+                canDash = false;
+                ableDashTime = 0.5f;
+            }
         }
-        else if (Input.GetAxisRaw("Horizontal") < 0)
+        else if(canDash == false) { 
+            if (Input.GetAxisRaw("Horizontal") < 0)
+            {
+                animator.SetBool("isMoving", true);
+                renderer.flipX = true;
+
+
+            } else if (Input.GetAxisRaw("Horizontal") > 0)
+            {
+                animator.SetBool("isMoving", true);
+                renderer.flipX = false;
+            }
+        }else if(canDash == true)
         {
-            animator.SetBool("isMoving", true);
-            renderer.flipX = true;
-            
-            
-        }else if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            animator.SetBool("isMoving", true);
-            renderer.flipX = false;
+            if (Input.GetAxisRaw("Horizontal") < 0)
+            {
+                animator.SetBool("isDash", true);
+                renderer.flipX = true;
+
+
+            }
+            else if (Input.GetAxisRaw("Horizontal") > 0)
+            {
+                animator.SetBool("isDash", true);
+                renderer.flipX = false;
+            }
         }
 
         //Jumping
-        if(Input.GetButtonDown ("Jump") && !animator.GetBool("isJumping")){
+        if (Input.GetButtonDown("Jump") && !animator.GetBool("isJumping")) {
             isJumping = true;
             animator.SetBool("isJumping", true); //Jumping Flag
             animator.SetTrigger("doJumping"); //Jumping Animation
@@ -49,21 +75,22 @@ public class AliceController : MonoBehaviour {
     }
 
     //Physics engine Updates
-    void FixedUpdate(){
-        Move ();
-        Jump ();
+    void FixedUpdate() {
+        Move();
+        Jump();
+        Dash();
     }
 
     //------[Movement Function]
 
-    void Move(){
-        Vector3 moveVelocity= Vector3.zero;
+    void Move() {
+        Vector3 moveVelocity = Vector3.zero;
 
-        if(Input.GetAxisRaw ("Horizontal") < 0){
+        if (Input.GetAxisRaw("Horizontal") < 0) {
             moveVelocity = Vector3.left;
-            
 
-        }else if(Input.GetAxisRaw("Horizontal") > 0){
+
+        } else if (Input.GetAxisRaw("Horizontal") > 0) {
             moveVelocity = Vector3.right;
 
         }
@@ -71,18 +98,33 @@ public class AliceController : MonoBehaviour {
         transform.position += moveVelocity * movePower * Time.deltaTime;
     }
 
-    void Jump(){
-        if(!isJumping)
+    void Dash()
+    {
+        Vector3 dashVelocity = Vector3.zero;
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            dashVelocity = Vector3.left;
+        }else if(Input.GetAxisRaw("Horizontal") > 0)
+        {
+            dashVelocity = Vector3.right;
+        }
+        transform.position += dashVelocity * dashPower * Time.deltaTime;
+    }
+
+    void Jump() {
+        if (!isJumping)
             return;
 
         //Prevent Velocity amplifivation.
         rigid.velocity = Vector2.zero;
 
-        Vector2 jumpVelocity = new Vector2 (0, jumpPower);
-        rigid.AddForce (jumpVelocity, ForceMode2D.Impulse);
+        Vector2 jumpVelocity = new Vector2(0, jumpPower);
+        rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
         isJumping = false;
     }
+
+    
     
     //Attach Event
     void OnTriggerEnter2D(Collider2D other)

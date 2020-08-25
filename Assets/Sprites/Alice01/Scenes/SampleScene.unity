@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePower: 5
-  jumpPower: 5
+  jumpPower: 8
 --- !u!61 &477137418
 BoxCollider2D:
   m_ObjectHideFlags: 0
