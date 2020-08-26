@@ -10,7 +10,7 @@ class WebGLBuilder
 	static void build()
 	{
 		string[] scenes = {
-			"Assets/Scenes/SampleScene.unity"
+			"Assets/Sunnyland/Scenes/demo.unity"
 		};
 
 		UnityEditor.BuildPipeline.BuildPlayer(scenes, "WebGL-Dist", UnityEditor.BuildTarget.WebGL, UnityEditor.BuildOptions.Development);
