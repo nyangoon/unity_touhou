@@ -5,16 +5,15 @@ public class AliceController : MonoBehaviour {
     public float movePower = 1f;
     public float dashPower = 1f;
     public float jumpPower = 1f;
-    private float ableDashTime = 0.5f;
 
     Rigidbody2D rigid;
     Animator animator;
-    SpriteRenderer renderer;
+    new SpriteRenderer renderer;
 
 
     Vector3 movement;
     bool isJumping = false;
-    bool canDash = false;
+    bool isDash = false;
 
     //----------[Override Function]
     //Initailization
@@ -27,44 +26,54 @@ public class AliceController : MonoBehaviour {
     //Graphic & Input Updates
     void Update() {
         //Moving
-        if (Input.GetAxisRaw("Horizontal") == 0)
+        if (Input.GetAxisRaw("Horizontal") == 0) //방향키 입력 없음
         {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                isDash = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                isDash = false;
+            }
             animator.SetBool("isMoving", false);
-            canDash = true;
-            ableDashTime -= Time.deltaTime;
-            if(ableDashTime <= 0)
-            {
-                canDash = false;
-                ableDashTime = 0.5f;
-            }
+            animator.SetBool("isDash", false);
+           
         }
-        else if(canDash == false) { 
-            if (Input.GetAxisRaw("Horizontal") < 0)
-            {
-                animator.SetBool("isMoving", true);
-                renderer.flipX = true;
-
-
-            } else if (Input.GetAxisRaw("Horizontal") > 0)
-            {
-                animator.SetBool("isMoving", true);
-                renderer.flipX = false;
-            }
-        }else if(canDash == true)
+        else if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            if (Input.GetAxisRaw("Horizontal") < 0)
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 animator.SetBool("isDash", true);
-                renderer.flipX = true;
-
-
-            }
-            else if (Input.GetAxisRaw("Horizontal") > 0)
+                isDash = true;
+            }else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                animator.SetBool("isDash", true);
-                renderer.flipX = false;
+                animator.SetBool("isDash", false);
+                isDash = false;
             }
+            renderer.flipX = true;
+            animator.SetBool("isMoving", true);
+           
+            
         }
+        else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                animator.SetBool("isDash", true);
+                isDash = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                animator.SetBool("isDash", false);
+                isDash = false;
+            }
+            renderer.flipX = false;
+            animator.SetBool("isMoving", true);
+            
+
+        }
+        
 
         //Jumping
         if (Input.GetButtonDown("Jump") && !animator.GetBool("isJumping")) {
@@ -78,39 +87,34 @@ public class AliceController : MonoBehaviour {
     void FixedUpdate() {
         Move();
         Jump();
-        Dash();
     }
 
     //------[Movement Function]
 
-    void Move() {
+    void Move()
+    {
         Vector3 moveVelocity = Vector3.zero;
-
-        if (Input.GetAxisRaw("Horizontal") < 0) {
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
             moveVelocity = Vector3.left;
 
-
-        } else if (Input.GetAxisRaw("Horizontal") > 0) {
+        }
+        else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
             moveVelocity = Vector3.right;
 
         }
-
-        transform.position += moveVelocity * movePower * Time.deltaTime;
-    }
-
-    void Dash()
-    {
-        Vector3 dashVelocity = Vector3.zero;
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (isDash == false)
         {
-            dashVelocity = Vector3.left;
-        }else if(Input.GetAxisRaw("Horizontal") > 0)
+            transform.position += moveVelocity * movePower * Time.deltaTime;
+        }else if (isDash == true)
         {
-            dashVelocity = Vector3.right;
+            transform.position += moveVelocity * dashPower * Time.deltaTime;
         }
-        transform.position += dashVelocity * dashPower * Time.deltaTime;
+    
     }
 
+    
     void Jump() {
         if (!isJumping)
             return;

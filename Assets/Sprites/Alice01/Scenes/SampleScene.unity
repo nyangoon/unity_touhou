@@ -216,7 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b345e36fec2357f45842441fdc9c01d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movePower: 5
+  movePower: 1
+  dashPower: 10
   jumpPower: 8
 --- !u!61 &477137418
 BoxCollider2D:
@@ -355,7 +356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309170214}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.4, y: -0.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1602354965}
